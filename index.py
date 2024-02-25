@@ -22,7 +22,12 @@ async def on_member_join(member):
   canalbemvindo = client.get_channel(1211027616845271150)
   mensagem = await canalbemvindo.send(f"{member.mention} bem vindo mamaco.")
 
-# Evento de comandos
+  # Pegando o cargo
+  role = client.get_guild(1156724799423389736).get_role(1211106560869408838)
+  print(role)
+   
+
+# Evento de comando
 @client.event
 async def on_message(message):
   if message.content == "!teste": 
