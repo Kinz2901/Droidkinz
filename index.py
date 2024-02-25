@@ -1,6 +1,10 @@
 import discord
 from discord.ext import commands
-import random 
+from dotenv import load_dotenv
+import os
+
+load_dotenv('.env')
+TOKEN = os.getenv('TOKEN')
 
 intents = discord.Intents.default()
 intents.members = True
@@ -24,4 +28,4 @@ async def on_message(message):
   if message.content == "!teste": 
     await message.channel.send(f"Testado!")
 
-client.run('')
+client.run(TOKEN)
