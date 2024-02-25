@@ -29,7 +29,9 @@ async def on_member_join(member):
 # Evento de comando
 @client.event
 async def on_message(message):
-  if message.content == "!teste": 
+  if message.content == "!comandos":
+    await message.channel.send(f"!comandos \n!teste")
+  elif message.content == "!teste": 
     await message.channel.send(f"Testado!")
 
 client.run(TOKEN)
