@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
+import time 
 
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
@@ -36,12 +37,17 @@ async def on_message(message):
       description = "- !comandos\n- !teste\n- !teste2\n- !teste3\n- !teste4\n- !teste5\n- !teste6",
       color = 0xffff00
     )
+    embed.set_author(
+      name=client.user.name, 
+      icon_url=client.user.avatar.url)
     embed.set_footer(
-      text="create by Kinz015",
-      icon_url="https://pics.craiyon.com/2023-11-13/uMOzhnlCSe2Ri4P0kpR6-A.webp"
+      text="created by Kinz015",
+      icon_url=client.user.avatar.url
     )
     await message.channel.send(embed=embed)
-    
+    time.sleep(10)
+
+ 
   elif message.content == "!teste": 
     await message.channel.send(f"Testado!")
 
