@@ -44,27 +44,25 @@ async def on_message(message):
       icon_url=client.user.avatar.url
     )
     await message.channel.send(embed=embed)
-    time.sleep(10)
 
   elif message.content == "!perfil":
     print(message)
     embed = discord.Embed(
-      title = message.author.global_name,
+      title = f"Perfil de {message.author.global_name}",
       description = "Esse é o seu perfil",
       color = 0x993399
     )
     roles = ""
     for role in message.author.roles:
       if role.name != "@everyone":
-        roles = f"- {role.name}\n" + roles
-        print(roles)
+        roles = f"- {role.mention}\n" + roles
     embed.add_field(
-        name="Cargos:",
+        name="Tags:",
         value=roles,
         inline= False
       )
     embed.set_author(
-      name=f"Perfil de {client.user.name}", 
+      name=client.user.name, 
       icon_url=client.user.avatar.url)
     embed.set_image(
       url=message.author.avatar.url
