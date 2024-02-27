@@ -48,7 +48,6 @@ async def on_message(message):
 
 # !perfil
   elif message.content == "!perfil":
-    print(message)
     embed = discord.Embed(
       title = f"Perfil de {message.author.global_name}",
       description = "Esse é o seu perfil",
