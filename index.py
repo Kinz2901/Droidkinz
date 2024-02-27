@@ -21,16 +21,16 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
   canalbemvindo = client.get_channel(1211027616845271150)
-  # Pegando o cargo
+# Pegando o cargo
   role = member.guild.get_role(1211106560869408838)
   mensagem = await canalbemvindo.send(f"{member.mention} bem vindo ao {member.guild}.")
   await member.add_roles(role)
 
-# Evento de comando
+# !comandos
 @client.event
 async def on_message(message):
   if message.content == "!comandos":
-    # Criar uma embed
+# Criar uma embed
     embed = discord.Embed(
       title = "Lista de Comandos:",
       description = "- !comandos\n- !perfil",
@@ -43,8 +43,10 @@ async def on_message(message):
       text="created by Kinz015",
       icon_url=client.user.avatar.url
     )
-    await message.channel.send(embed=embed)
+    mensagem = await message.channel.send(embed=embed)
+    time.sleep(10)
 
+# !perfil
   elif message.content == "!perfil":
     print(message)
     embed = discord.Embed(
@@ -72,9 +74,5 @@ async def on_message(message):
       icon_url=client.user.avatar.url
     )
     await message.channel.send(embed=embed)
-
-  elif message.content == "!teste": 
-    await message.channel.send(f"Testado!")
-
 
 client.run(TOKEN)
