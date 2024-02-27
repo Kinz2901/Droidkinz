@@ -19,12 +19,12 @@ async def on_ready():
 
 # Evendo de boas vindas.
 @client.event
-async def on_member_join(member):
+async def on_member_join(self):
   canalbemvindo = client.get_channel(1211027616845271150)
 # Pegando o cargo
-  role = member.guild.get_role(1211106560869408838)
-  mensagem = await canalbemvindo.send(f"{member.mention} bem vindo ao {member.guild}.")
-  await member.add_roles(role)
+  role = self.guild.get_role(1211106560869408838)
+  mensagem = await canalbemvindo.send(f"{self.mention} bem vindo ao {self.guild}.")
+  await self.add_roles(role)
 
 # !comandos
 @client.event
