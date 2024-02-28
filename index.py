@@ -3,6 +3,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import os
 import time 
+from discord.utils import get
 
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
@@ -50,7 +51,6 @@ async def comandos(ctx):
 # !perfil
 @client.command()
 async def perfil(ctx):
-# !perfil
   embed = discord.Embed(
     title = f"Perfil de {ctx.author.global_name}",
     description = "Esse é o seu perfil",
@@ -77,6 +77,8 @@ async def perfil(ctx):
   )
   await ctx.channel.send(embed=embed)
 
+# !apagar
+                    # CORRIGIR ERRO SE NÃO FOR MOD #
 @client.command()
 @commands.has_any_role(admin)
 async def apagar(ctx, amount:str):
@@ -84,5 +86,23 @@ async def apagar(ctx, amount:str):
     await ctx.channel.purge()
   else: 
     await ctx.channel.purge(limit=(int(amount) + 1))
+
+# Entrar na call
+@client.command()
+async def entrar(ctx):
+                    # CORRIGIR ERRO DE SE NÃO ESTIVER EM CALL #
+    call = ctx.message.author.voice.channel
+    voice = get(client.voice_clients, guild=ctx.guild)
+    if voice and voice.is_connected():
+      await voice.move_to(call)
+    else:
+      voice = await call.connect()
+
+@client.command()
+async def sair(ctx):
+  voice = get(client.voice_clients, guild=ctx.guild)
+  await voice.disconnect()
+
+   
 
 client.run(TOKEN)
