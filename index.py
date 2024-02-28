@@ -90,19 +90,24 @@ async def apagar(ctx, amount:str):
 # Entrar na call
 @client.command()
 async def entrar(ctx):
-                    # CORRIGIR ERRO DE SE NÃO ESTIVER EM CALL #
-  call = ctx.author.voice.channel
-  voice = get(client.voice_clients, guild=ctx.guild)
-  if voice and voice.is_connected():
-    await voice.move_to(call)
-  else:
-    voice = await call.connect()
+  try:
+    call = ctx.author.voice.channel
+    voice = get(client.voice_clients, guild=ctx.guild)
+    if voice and voice.is_connected():
+      await voice.move_to(call)
+    else:
+      voice = await call.connect()
+  except AttributeError:
+    await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
+# Sair da call
 @client.command()
 async def sair(ctx):
-  voice = get(client.voice_clients, guild=ctx.guild)
-  await voice.disconnect()
-
+  try:
+    voice = get(client.voice_clients, guild=ctx.guild)
+    await voice.disconnect()
+  except AttributeError:
+    await ctx.channel.send("O bot não esta conectado em nenhum canal de voz.")
    
 
 client.run(TOKEN)
