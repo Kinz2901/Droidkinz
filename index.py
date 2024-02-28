@@ -91,12 +91,12 @@ async def apagar(ctx, amount:str):
 @client.command()
 async def entrar(ctx):
                     # CORRIGIR ERRO DE SE NÃO ESTIVER EM CALL #
-    call = ctx.message.author.voice.channel
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if voice and voice.is_connected():
-      await voice.move_to(call)
-    else:
-      voice = await call.connect()
+  call = ctx.author.voice.channel
+  voice = get(client.voice_clients, guild=ctx.guild)
+  if voice and voice.is_connected():
+    await voice.move_to(call)
+  else:
+    voice = await call.connect()
 
 @client.command()
 async def sair(ctx):
