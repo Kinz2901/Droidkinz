@@ -53,7 +53,7 @@ async def comandos(ctx):
 async def perfil(ctx):
   embed = discord.Embed(
     title = f"Perfil de {ctx.author.global_name}",
-    description = f"Entrou no servidor dia ", #dia de entrada
+    description = "Entrou no servidor dia ",
     color = 0x993399
   )
   roles = ""
