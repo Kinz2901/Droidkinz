@@ -53,7 +53,7 @@ async def comandos(ctx):
 async def perfil(ctx):
   embed = discord.Embed(
     title = f"Perfil de {ctx.author.global_name}",
-    description = "Entrou no servidor dia ",
+    description = "Entrou no servidor ...",
     color = 0x993399
   )
   roles = ""
@@ -87,7 +87,20 @@ async def apagar(ctx, amount:str):
   else: 
     await ctx.channel.purge(limit=(int(amount) + 1))
 
-# Entrar na call e colocar link do YT
+# COMANDOS YT / MUSICA
+@client.command()
+async def join(ctx, ags):
+  try:
+    call = ctx.author.voice.channel
+    voice = get(client.voice_clients, guild=ctx.guild)
+    if voice and voice.is_connected():
+      await voice.move_to(call)
+    else:
+      voice = await call.connect()
+      await discord.send_audio_packet(ags, encode=True)
+  except AttributeError:
+    await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
+
 @client.command()
 async def play(ctx, ags):
   try:
@@ -97,10 +110,23 @@ async def play(ctx, ags):
       await voice.move_to(call)
     else:
       voice = await call.connect()
+      await discord.send_audio_packet(ags, encode=True)
   except AttributeError:
     await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
-# Sair da call
+@client.command()
+async def pause(ctx):
+  await ctx.channel.send("Comando em desenvolvimento . . .")
+  
+
+@client.command()
+async def resume(ctx):
+  await ctx.channel.send("Comando em desenvolvimento . . .")
+
+@client.command()
+async def stop(ctx):
+  await ctx.channel.send("Comando em desenvolvimento . . .")
+
 @client.command()
 async def sair(ctx):
   try:
@@ -109,5 +135,8 @@ async def sair(ctx):
   except AttributeError:
     await ctx.channel.send("O bot não esta conectado em nenhum canal de voz.")
    
+@client.command()
+async def test(ctx):
+  print(ctx.voice_client)
 
 client.run(TOKEN)
