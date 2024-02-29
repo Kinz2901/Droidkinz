@@ -15,6 +15,8 @@ intents.message_content = True
 client = commands.Bot('!', case_insensitive = True, intents = intents)
 
 admin = "MOD"
+players = {}
+COR = 0xF7FE2E
 
 @client.event
 async def on_ready():
@@ -35,7 +37,7 @@ async def comandos(ctx):
 # Criar uma embed
   embed = discord.Embed(
     title = "Lista de Comandos:",
-    description = "- !comandos\n- !perfil",
+    description = "- !comandos\n- !perfil\n- !play\n- !sair",
     color = 0xffff00
   )
   embed.set_author(
@@ -87,9 +89,9 @@ async def apagar(ctx, amount:str):
   else: 
     await ctx.channel.purge(limit=(int(amount) + 1))
 
-# Entrar na call
+# Entrar na call e colocar link do YT
 @client.command()
-async def entrar(ctx):
+async def play(ctx, ags):
   try:
     call = ctx.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
