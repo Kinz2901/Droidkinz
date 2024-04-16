@@ -14,7 +14,7 @@ intents.message_content = True
 
 client = commands.Bot('!', case_insensitive = True, intents = intents)
 
-admin = "MOD"
+admin = "👻 MOD"
 
 @client.event
 async def on_ready():
