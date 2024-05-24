@@ -102,7 +102,7 @@ async def join(ctx, ags):
     await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
 @client.command()
-async def play(ctx, link):
+async def play(ctx, ags):
   try:
     call = ctx.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
@@ -110,7 +110,7 @@ async def play(ctx, link):
       await voice.move_to(call)
     else:
       voice = await call.connect()
-      await discord.send_audio_packet(link, encode=True)
+      await discord.send_audio_packet(ags, encode=True)
   except AttributeError:
     await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
