@@ -35,7 +35,7 @@ async def comandos(ctx):
 # Criar uma embed
   embed = discord.Embed(
     title = "Lista de Comandos:",
-    description = "- !comandos\n- !perfil\n- !play\n- !sair",
+    description = "- !comandos\n- !perfil\n- !play\n- !sair \n-!flerte",
     color = 0xffff00
   )
   embed.set_author(
@@ -46,7 +46,6 @@ async def comandos(ctx):
     icon_url=client.user.avatar.url
   )
   mensagem = await ctx.channel.send(embed=embed)
-  time.sleep(10)
 
 # !perfil
 @client.command()
@@ -79,17 +78,10 @@ async def perfil(ctx):
 
 # !apagar
                     # CORRIGIR ERRO SE NÃO FOR MOD #
-@client.command()
-@commands.has_any_role(admin)
-async def apagar(ctx, amount:str):
-  if amount == "tudo":
-    await ctx.channel.purge()
-  else: 
-    await ctx.channel.purge(limit=(int(amount) + 1))
 
 # COMANDOS YT / MUSICA
 @client.command()
-async def join(ctx, ags):
+async def join(ctx, args):
   try:
     call = ctx.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
@@ -97,12 +89,12 @@ async def join(ctx, ags):
       await voice.move_to(call)
     else:
       voice = await call.connect()
-      await discord.send_audio_packet(ags, encode=True)
+      await discord.send_audio_packet(args, encode=True)
   except AttributeError:
     await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
 @client.command()
-async def play(ctx, ags):
+async def play(ctx, args):
   try:
     call = ctx.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
@@ -110,7 +102,7 @@ async def play(ctx, ags):
       await voice.move_to(call)
     else:
       voice = await call.connect()
-      await discord.send_audio_packet(ags, encode=True)
+      await discord.send_audio_packet(args, encode=True)
   except AttributeError:
     await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
@@ -134,9 +126,41 @@ async def sair(ctx):
     await voice.disconnect()
   except AttributeError:
     await ctx.channel.send("O bot não esta conectado em nenhum canal de voz.")
+
+@client.command()
+async def flerte(ctx, args):
+  user = client.get_user(int(args))
+  await ctx.channel.send(f"Oie {user.mention} vem sempre aqui? 😏")
    
 @client.command()
 async def test(ctx):
   print(ctx.voice_client)
+
+#COMANDOS MOD
+
+@client.command()
+@commands.has_any_role(admin)
+async def mod(ctx):
+  embed = discord.Embed(
+    title = "Lista de Comandos:",
+    description = "- !apagar",
+    color = 0xffff00
+  )
+  embed.set_author(
+    name=client.user.name, 
+    icon_url=client.user.avatar.url)
+  embed.set_footer(
+    text="created by Kinz015",
+    icon_url=client.user.avatar.url
+  )
+  mensagem = await ctx.channel.send(embed=embed)
+
+@client.command()
+@commands.has_any_role(admin)
+async def apagar(ctx, amount:str):
+  if amount == "tudo":
+    await ctx.channel.purge()
+  else: 
+    await ctx.channel.purge(limit=(int(amount) + 1))
 
 client.run(TOKEN)
