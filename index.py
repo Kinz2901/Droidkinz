@@ -222,11 +222,15 @@ async def timeout(ctx, member:discord.Member, timelimit):
 @client.command()
 @commands.has_any_role(admin)
 async def mute(ctx, member:discord.Member):
+  role_muted = ctx.guild.get_role(1253179790702411836)
   await member.edit(mute=True)
+  await member.add_roles(role_muted)
 
 @client.command()
 @commands.has_any_role(admin)
 async def unmute(ctx, member:discord.Member):
-  await member.edit(unmute=None)
-
+  role_muted = ctx.guild.get_role(1253179790702411836)
+  await member.edit(mute=None)
+  await member.remove_roles(role_muted)
+  
 client.run(TOKEN)
