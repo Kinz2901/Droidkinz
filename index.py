@@ -51,9 +51,10 @@ async def comandos(ctx):
 # !perfil
 @client.command()
 async def perfil(ctx):
+  created_at = discord.utils.snowflake_time(393863136979058699)
   embed = discord.Embed(
     title = f"Perfil de {ctx.author.global_name}",
-    description = "Entrou no servidor ...",
+    description = f"Perfil criado desde {created_at} de ",
     color = 0x993399
   )
   roles = ""
@@ -135,7 +136,8 @@ async def flerte(ctx, args):
    
 @client.command()
 async def test(ctx):
-  print(ctx.voice_client)
+  created_at = discord.utils.snowflake_time(393863136979058699)
+  print(created_at)
 
 #COMANDOS MOD
 
@@ -166,17 +168,21 @@ async def apagar(ctx, amount:str):
 
 @client.command()
 @commands.has_any_role(admin)
-async def ban(ctx, member:discord.Member, *, reason: None):
-  if reason == None:
-    reason = "This user was banned by " + ctx.message.author.name
-  await member.ban(reason=reason)
+async def ban(ctx, member:discord.Member, *, reason=None):
+  mod = ctx.message.author
+  channel = ctx.channel
+  msg = f"{member.mention} foi banido por {mod.mention}\nMotivo: {reason}" 
+  await member.ban()
+  await channel.send(msg)
 
 @client.command()
 @commands.has_any_role(admin)
-async def kick(ctx, member:discord.Member, *, reason: None):
-  if reason == None:
-    reason = "This user was kicked by " + ctx.message.author.name
-  await member.kick(reason=reason)
+async def kick(ctx, member:discord.Member, *, reason=None):
+  mod = ctx.message.author
+  channel = ctx.channel
+  msg = f"{member.mention} foi expulso por {mod.mention}\nMotivo: {reason}" 
+  await member.kick()
+  await channel.send(msg)
 
 @client.command()
 @commands.has_any_role(admin)
