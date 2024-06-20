@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import time 
 from discord.utils import get
+import datetime
 
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
@@ -162,5 +163,70 @@ async def apagar(ctx, amount:str):
     await ctx.channel.purge()
   else: 
     await ctx.channel.purge(limit=(int(amount) + 1))
+
+@client.command()
+@commands.has_any_role(admin)
+async def ban(ctx, member:discord.Member, *, reason: None):
+  if reason == None:
+    reason = "This user was banned by " + ctx.message.author.name
+  await member.ban(reason=reason)
+
+@client.command()
+@commands.has_any_role(admin)
+async def kick(ctx, member:discord.Member, *, reason: None):
+  if reason == None:
+    reason = "This user was kicked by " + ctx.message.author.name
+  await member.kick(reason=reason)
+
+@client.command()
+@commands.has_any_role(admin)
+async def timeout(ctx, member:discord.Member, timelimit):
+  if "s" in timelimit:
+    gettime = timelimit.strip("s")
+    if int(gettime) > 2419000:
+      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
+    else:
+      newtime = datetime.timedelta(seconds=int(gettime))
+      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
+  elif "m" in timelimit:
+    gettime = timelimit.strip("m")
+    if int(gettime) > 40320:
+      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
+    else:
+      newtime = datetime.timedelta(minutes=int(gettime))
+      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
+  elif "h" in timelimit:
+    gettime = timelimit.strip("h")
+    if int(gettime) > 40320:
+      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
+    else:
+      newtime = datetime.timedelta(hours=int(gettime))
+      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
+  elif "d" in timelimit:
+    gettime = timelimit.strip("d")
+    if int(gettime) > 40320:
+      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
+    else:
+      newtime = datetime.timedelta(days=int(gettime))
+      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
+  elif "w" in timelimit:
+    gettime = timelimit.strip("w")
+    if int(gettime) > 40320:
+      await ctx.send("O valor do tempo não pode ser superior a 4 weeks")
+    else:
+      newtime = datetime.timedelta(weeks=int(gettime))
+      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
+
+      
+
+@client.command()
+@commands.has_any_role(admin)
+async def mute(ctx, member:discord.Member):
+  await member.edit(mute=True)
+
+@client.command()
+@commands.has_any_role(admin)
+async def unmute(ctx, member:discord.Member):
+  await member.edit(unmute=None)
 
 client.run(TOKEN)
