@@ -144,7 +144,7 @@ async def test(ctx):
 async def mod(ctx):
   embed = discord.Embed(
     title = "Lista de Comandos:",
-    description = "- !apagar",
+    description = "- !mod\n- !apagar\n- !mute\n- !unmute",
     color = 0xffff00
   )
   embed.set_author(
@@ -217,16 +217,18 @@ async def timeout(ctx, member:discord.Member, timelimit):
       newtime = datetime.timedelta(weeks=int(gettime))
       await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
 
-      
-
 @client.command()
 @commands.has_any_role(admin)
 async def mute(ctx, member:discord.Member):
+  role_muted = ctx.guild.get_role(1253179790702411836)
   await member.edit(mute=True)
+  await member.add_roles(role_muted)
 
 @client.command()
 @commands.has_any_role(admin)
 async def unmute(ctx, member:discord.Member):
-  await member.edit(unmute=None)
-
+  role_muted = ctx.guild.get_role(1253179790702411836)
+  await member.edit(mute=None)
+  await member.remove_roles(role_muted)
+  
 client.run(TOKEN)
