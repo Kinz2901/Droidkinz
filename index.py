@@ -231,9 +231,44 @@ async def timeout(ctx, member:discord.Member, timelimit):
 @commands.has_any_role(admin)
 async def mute(ctx, member:discord.Member, timelimit):
   role_muted = ctx.guild.get_role(1253179790702411836)
+  time_muted = 0
+  if "s" in timelimit:
+    gettime = int(timelimit.strip("s"))
+    if gettime > 2419000:
+      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
+    else:
+      time_muted += gettime
+  elif "m" in timelimit:
+    gettime = int(timelimit.strip("m"))
+    if gettime > 40320:
+      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
+    else:
+      gettime *= 60
+      time_muted += gettime
+  elif "h" in timelimit:
+    gettime = int(timelimit.strip("h"))
+    if int(gettime) > 40320:
+      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
+    else:
+      gettime *= 3600
+      time_muted += gettime
+  elif "d" in timelimit:
+    gettime = int(timelimit.strip("d"))
+    if gettime > 672:
+      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
+    else:
+      gettime *= 86400
+      time_muted += gettime
+  elif "w" in timelimit:
+    gettime = int(timelimit.strip("w"))
+    if gettime > 4:
+      await ctx.send("O valor do tempo não pode ser superior a 4 semanas")
+    else:
+      gettime *= 604800
+      time_muted += gettime
   await member.edit(mute=True)
   await member.add_roles(role_muted)
-  await asyncio.sleep(int(timelimit))
+  await asyncio.sleep(int(time_muted))
   await member.edit(mute=None)
   await member.remove_roles(role_muted)
 
