@@ -5,6 +5,8 @@ import os
 import time 
 from discord.utils import get
 import datetime
+import time
+import asyncio
 
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
@@ -36,7 +38,7 @@ async def comandos(ctx):
 # Criar uma embed
   embed = discord.Embed(
     title = "Lista de Comandos:",
-    description = "- !comandos\n- !perfil\n- !play\n- !sair \n-!flerte",
+    description = "- !comandos\n- !perfil\n- !play\n- !sair \n- !flerte",
     color = 0xffff00
   )
   embed.set_author(
@@ -47,6 +49,9 @@ async def comandos(ctx):
     icon_url=client.user.avatar.url
   )
   mensagem = await ctx.channel.send(embed=embed)
+  await asyncio.sleep(10)
+  await ctx.message.delete()
+  await mensagem.delete()
 
 # !perfil
 @client.command()
@@ -77,9 +82,6 @@ async def perfil(ctx):
     icon_url=client.user.avatar.url
   )
   await ctx.channel.send(embed=embed)
-
-# !apagar
-                    # CORRIGIR ERRO SE NÃO FOR MOD #
 
 # COMANDOS YT / MUSICA
 @client.command()
@@ -227,10 +229,13 @@ async def timeout(ctx, member:discord.Member, timelimit):
 
 @client.command()
 @commands.has_any_role(admin)
-async def mute(ctx, member:discord.Member):
+async def mute(ctx, member:discord.Member, timelimit):
   role_muted = ctx.guild.get_role(1253179790702411836)
   await member.edit(mute=True)
   await member.add_roles(role_muted)
+  await asyncio.sleep(int(timelimit))
+  await member.edit(mute=None)
+  await member.remove_roles(role_muted)
 
 @client.command()
 @commands.has_any_role(admin)
